@@ -36,10 +36,10 @@ export default function SettingsPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 sm:py-16">
-      <span className="text-xs font-medium tracking-[0.2em] text-rose uppercase">Settings · BYOK</span>
-      <h1 className="mt-3 font-serif text-3xl font-bold sm:text-4xl">帶上你自己的鑰匙</h1>
+      <span className="text-xs font-bold tracking-[0.2em] text-rose uppercase">Settings · BYOK</span>
+      <h1 className="mt-3 font-serif text-3xl font-bold sm:text-4xl">🔑 約會前，帶上你的鑰匙</h1>
       <p className="mt-3 text-ink-soft">
-        輸入你的 OpenAI API Key，面試官就會用你的帳號來出題和評分。費用由你的 OpenAI 帳號支付，我們不經手、也不保存。
+        輸入你的 OpenAI API Key，面試官就會用你的帳號來出題和評分。就像約會時錢包一直在你身上——費用由你的 OpenAI 帳號支付，我們不經手、也不保存。
       </p>
 
       {/* 目前狀態 */}
@@ -122,8 +122,8 @@ export default function SettingsPage() {
         </p>
       </div>
 
-      <Link href="/interview" className="mt-10 block rounded-full bg-rose py-3.5 text-center font-medium text-white transition hover:bg-rose-deep">
-        前往面試 →
+      <Link href="/interview" className="bg-love mt-10 block rounded-full py-3.5 text-center font-bold text-white shadow-lg shadow-rose/25 transition hover:-translate-y-0.5">
+        帶著鑰匙去配對 ♥
       </Link>
     </div>
   );

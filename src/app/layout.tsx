@@ -29,8 +29,8 @@ const notoSerif = Noto_Serif_TC({
 
 // 網頁的 <title> 與描述（SEO、分享預覽會用到）
 export const metadata: Metadata = {
-  title: "Right One 面試相談室｜AI 面試模擬器",
-  description: "面試就像相親，確認彼此是不是對的人。貼上職缺，AI 面試官陪你練習、評分、給你更好的回答。",
+  title: "Right One 面試配對所｜AI 面試模擬器",
+  description: "看起來是交友網站，其實是面試練習。貼上職缺、和 AI 面試官約會聊天，拿到心動指數和示範回答。",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

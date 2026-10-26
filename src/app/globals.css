@@ -3,23 +3,25 @@
 
 /* ============================================================
    設計系統（Design Tokens）
-   主題：「面試就像相親」—— 奶油色紙感背景、磚紅色心動點綴、
-   鼠尾草綠代表「安心、合拍」，搭配襯線字體營造雜誌質感。
+   主題：「看起來是交友 App，其實是面試」
+   珊瑚粉、玫瑰紅是交友 App 的經典配色（心動、配對），
+   搭配深梅紫文字與鼠尾草綠（合拍、好評），再用襯線字體保留質感。
    在 @theme 裡定義的顏色，會自動變成 Tailwind class，
    例如 --color-rose → bg-rose、text-rose、border-rose
    ============================================================ */
 @theme {
-  --color-cream: #fbf6ef;      /* 主背景：奶油紙 */
-  --color-paper: #fffdf9;      /* 卡片背景：更亮的紙 */
-  --color-ink: #2b2320;        /* 主要文字：深咖啡墨色 */
-  --color-ink-soft: #6b5d55;   /* 次要文字 */
-  --color-line: #eadfd3;       /* 分隔線、邊框 */
-  --color-rose: #c8553d;       /* 主色：磚紅（心動） */
-  --color-rose-deep: #a8432e;  /* 主色加深（hover） */
-  --color-blush: #f6e3da;      /* 腮紅粉：淡底色 */
-  --color-sage: #7d8f6e;       /* 鼠尾草綠：合拍、好評 */
-  --color-sage-soft: #e7ecdf;
-  --color-honey: #d9a441;      /* 蜂蜜黃：中等評價 */
+  --color-cream: #fff7f4;      /* 主背景：淡淡的蜜桃奶油 */
+  --color-paper: #ffffff;      /* 卡片背景 */
+  --color-ink: #2d1b2e;        /* 主要文字：深梅紫 */
+  --color-ink-soft: #7a6273;   /* 次要文字 */
+  --color-line: #f3dfe2;       /* 分隔線、邊框 */
+  --color-rose: #ef5b72;       /* 主色：心動珊瑚粉 */
+  --color-rose-deep: #d23f5a;  /* 主色加深（hover） */
+  --color-peach: #ff9a76;      /* 漸層用：蜜桃橘 */
+  --color-blush: #ffe4e8;      /* 腮紅粉：淡底色 */
+  --color-sage: #6f9a7e;       /* 鼠尾草綠：合拍、好評 */
+  --color-sage-soft: #e3f0e6;
+  --color-honey: #e2a33b;      /* 蜂蜜黃：中等評價 */
 
   /* 字體：變數由 layout.tsx 的 next/font 注入 */
   --font-serif: var(--font-noto-serif), "Noto Serif TC", serif;
@@ -36,10 +38,22 @@ body {
   font-family: var(--font-sans);
 }
 
-/* 淡淡的紙張顆粒紋理，讓畫面不那麼「數位感」 */
+/* 淡淡的小愛心點點背景，讓畫面有交友 App 的甜度但不搶戲 */
 .paper-texture {
-  background-image: radial-gradient(rgba(43, 35, 32, 0.035) 1px, transparent 1px);
-  background-size: 18px 18px;
+  background-image: radial-gradient(rgba(239, 91, 114, 0.07) 1.2px, transparent 1.2px);
+  background-size: 20px 20px;
+}
+
+/* 交友 App 招牌的「心動漸層」
+   Tailwind v4 要用 @utility 宣告，才會被當成工具 class 產生（一般的 .class 寫法會被略過） */
+@utility bg-love {
+  background-image: linear-gradient(135deg, var(--color-rose) 0%, var(--color-peach) 100%);
+}
+@utility text-love {
+  background-image: linear-gradient(135deg, var(--color-rose) 0%, var(--color-peach) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 /* 進場動畫：卡片由下往上淡入 */
@@ -49,6 +63,27 @@ body {
 }
 .animate-rise {
   animation: rise 0.5s ease-out both;
+}
+
+/* 配對成功時的愛心彈跳 */
+@keyframes pop {
+  0%   { transform: scale(0.3); opacity: 0; }
+  60%  { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); }
+}
+.animate-pop {
+  animation: pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* 心跳：主要按鈕上的小愛心 */
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  15%      { transform: scale(1.25); }
+  30%      { transform: scale(1); }
+  45%      { transform: scale(1.18); }
+}
+.animate-heartbeat {
+  animation: heartbeat 1.6s ease-in-out infinite;
 }
 
 /* 「對方正在輸入中⋯」的三個跳動小點 */
