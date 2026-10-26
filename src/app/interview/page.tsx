@@ -14,6 +14,8 @@ import Link from "next/link";
 import { useState } from "react";
 import type { Evaluation, QuestionSet } from "@/lib/interview-schema";
 import { MAX_QUESTIONS, MIN_QUESTIONS } from "@/lib/interview-schema";
+import { OPENAI_KEY_HEADER, loadOpenAIKey, maskKey } from "@/lib/byok";
+import { useOpenAIKey } from "@/lib/use-openai-key";
 
 // 三個階段
 type Stage = "setup" | "interview" | "summary";
@@ -22,9 +24,15 @@ type Stage = "setup" | "interview" | "summary";
 // 呼叫後端 API 的小工具：統一處理錯誤訊息
 // ------------------------------------------------------------
 async function callInterviewApi<T>(body: Record<string, unknown>): Promise<T> {
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  // BYOK：如果使用者在設定頁存過 OpenAI Key，就從 localStorage 拿出來放進 header
+  // 沒有 Key 就不帶，後端會改用示範模式
+  const userKey = loadOpenAIKey();
+  if (userKey) headers[OPENAI_KEY_HEADER] = userKey;
+
   const res = await fetch("/api/interview", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers,
     body: JSON.stringify(body),
   });
   const data = await res.json();
@@ -187,7 +195,9 @@ function SetupView(props: {
       <h1 className="mt-3 font-serif text-3xl font-bold sm:text-4xl">先讓我看看對方的條件</h1>
       <p className="mt-3 text-ink-soft">把職缺描述貼上來，就像相親前先讀對方的自我介紹。</p>
 
-      <div className="mt-10 rounded-3xl border border-line bg-paper p-6 shadow-sm sm:p-8">
+      <KeyStatus />
+
+      <div className="mt-6 rounded-3xl border border-line bg-paper p-6 shadow-sm sm:p-8">
         {/* 職缺描述 */}
         <label htmlFor="jd" className="text-sm font-bold">職缺描述</label>
         <textarea
@@ -434,6 +444,23 @@ function SummaryView(props: {
 // ============================================================
 // 小元件
 // ============================================================
+
+// 顯示目前用的是「你的 OpenAI Key」還是「示範模式」
+function KeyStatus() {
+  const { key } = useOpenAIKey();
+  return (
+    <div className={`mt-8 flex items-center justify-between gap-3 rounded-2xl border px-4 py-3 text-sm ${key ? "border-sage/30 bg-sage-soft" : "border-honey/30 bg-[#f7ecd5]"}`}>
+      {key ? (
+        <span className="text-sage">✓ 使用你的 OpenAI Key <span className="font-mono">{maskKey(key)}</span></span>
+      ) : (
+        <span className="text-ink-soft">尚未設定 API Key，目前是<b>示範模式</b>（固定題目）</span>
+      )}
+      <Link href="/settings" className="shrink-0 font-medium text-rose underline-offset-2 hover:underline">
+        {key ? "管理" : "去設定 →"}
+      </Link>
+    </div>
+  );
+}
 
 // 圓形的 +/- 按鈕
 function StepButton({ children, onClick, disabled, label }: { children: React.ReactNode; onClick: () => void; disabled: boolean; label: string }) {

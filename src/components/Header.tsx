@@ -32,13 +32,18 @@ export default function Header() {
           ))}
         </nav>
 
-        {/* 右側主要按鈕：進入面試 */}
-        <Link
-          href="/interview"
-          className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-cream transition-colors hover:bg-rose"
-        >
-          開始相親面試
-        </Link>
+        {/* 右側：設定（輸入自己的 API Key）＋ 主要按鈕 */}
+        <div className="flex items-center gap-3">
+          <Link href="/settings" className="text-sm text-ink-soft transition-colors hover:text-rose">
+            設定
+          </Link>
+          <Link
+            href="/interview"
+            className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-cream transition-colors hover:bg-rose"
+          >
+            開始相親面試
+          </Link>
+        </div>
       </div>
     </header>
   );
