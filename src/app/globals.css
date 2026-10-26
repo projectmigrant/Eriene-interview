@@ -1,0 +1,61 @@
+/* 載入 Tailwind CSS v4 */
+@import "tailwindcss";
+
+/* ============================================================
+   設計系統（Design Tokens）
+   主題：「面試就像相親」—— 奶油色紙感背景、磚紅色心動點綴、
+   鼠尾草綠代表「安心、合拍」，搭配襯線字體營造雜誌質感。
+   在 @theme 裡定義的顏色，會自動變成 Tailwind class，
+   例如 --color-rose → bg-rose、text-rose、border-rose
+   ============================================================ */
+@theme {
+  --color-cream: #fbf6ef;      /* 主背景：奶油紙 */
+  --color-paper: #fffdf9;      /* 卡片背景：更亮的紙 */
+  --color-ink: #2b2320;        /* 主要文字：深咖啡墨色 */
+  --color-ink-soft: #6b5d55;   /* 次要文字 */
+  --color-line: #eadfd3;       /* 分隔線、邊框 */
+  --color-rose: #c8553d;       /* 主色：磚紅（心動） */
+  --color-rose-deep: #a8432e;  /* 主色加深（hover） */
+  --color-blush: #f6e3da;      /* 腮紅粉：淡底色 */
+  --color-sage: #7d8f6e;       /* 鼠尾草綠：合拍、好評 */
+  --color-sage-soft: #e7ecdf;
+  --color-honey: #d9a441;      /* 蜂蜜黃：中等評價 */
+
+  /* 字體：變數由 layout.tsx 的 next/font 注入 */
+  --font-serif: var(--font-noto-serif), "Noto Serif TC", serif;
+  --font-sans: var(--font-noto-sans), "Noto Sans TC", system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+/* 淡淡的紙張顆粒紋理，讓畫面不那麼「數位感」 */
+.paper-texture {
+  background-image: radial-gradient(rgba(43, 35, 32, 0.035) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+/* 進場動畫：卡片由下往上淡入 */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-rise {
+  animation: rise 0.5s ease-out both;
+}
+
+/* 「對方正在輸入中⋯」的三個跳動小點 */
+@keyframes typing {
+  0%, 80%, 100% { opacity: 0.25; transform: translateY(0); }
+  40%           { opacity: 1;    transform: translateY(-3px); }
+}
+.typing-dot {
+  animation: typing 1.2s infinite ease-in-out;
+}
